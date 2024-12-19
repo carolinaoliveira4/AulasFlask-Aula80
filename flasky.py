@@ -3,10 +3,18 @@ import click
 from flask_migrate import Migrate
 from app import create_app, db
 from app.models import User, Role
+from dotenv import load_dotenv
+
+project_folder = os.path.expanduser('~/mysite')
+dotenv_path = os.path.join(project_folder, '.env')
+
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
+else:
+    print(".env is missing.")
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 migrate = Migrate(app, db)
-
 
 @app.shell_context_processor
 def make_shell_context():
